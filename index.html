@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="可公开检索的禅宗公案、祖师故事、偈颂与版本出处文库。">
+  <title>佛教文库｜公案与偈颂公开检索</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" as="fetch" crossorigin="anonymous" href="data/search-titles.json">
+</head>
+<body>
+<main>
+  <header><p class="eyebrow">佛教文库 · GitHub Pages 镜像</p><h1>一问，即见全文</h1><p>搜索禅宗公案、祖师故事、偈颂、人物及版本出处。</p></header>
+  <section class="search"><label for="q">搜索文库</label><div class="searchbox"><span>⌕</span><input id="q" autocomplete="off" placeholder="例如：南泉站猫、狗子佛性、仓央嘉措"><button id="clear" aria-label="清空">×</button></div><div id="examples" class="examples"></div><p id="status" role="status">正在载入文库……</p></section>
+  <article id="answer" hidden></article><section id="related" hidden></section>
+  <footer>佛教文库公开检索镜像 · 古籍全文开放；正式引用请回查条目所列原典。</footer>
+</main>
+<script type="module" src="app.mjs"></script>
+</body></html>
