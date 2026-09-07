@@ -5,7 +5,8 @@ let titles=[],records=null,version='',timer=0,active=0,fullPromise=null;
 const searchPanel=$('.search'),header=$('header');
 const updateFloatingSearch=()=>searchPanel.classList.toggle('compact',window.scrollY>header.offsetHeight+24);
 window.addEventListener('scroll',updateFloatingSearch,{passive:true});updateFloatingSearch();
-const manifest=await fetch('data/search-manifest.json').then(r=>r.json());version=manifest.version;
+const loadManifest=()=>fetch(`data/search-manifest.json?fresh=${Date.now()}`,{cache:'no-store'}).then(r=>r.json());
+const manifest=await loadManifest();version=manifest.version;
 titles=prepare((await fetch(`data/search-titles.json?v=${version}`).then(r=>r.json())).records);
 status.textContent=`已收录 ${manifest.count.toLocaleString()} 条资料，可开始搜索。`;
 $('#examples').innerHTML=examples.map(x=>`<button data-q="${x}">${x}</button>`).join('');
@@ -34,3 +35,13 @@ async function show(ranked,query,seq){
 }
 async function copy(button,text){await navigator.clipboard.writeText(text);const old=button.textContent;button.textContent='已复制';button.classList.add('ok');setTimeout(()=>{button.textContent=old;button.classList.remove('ok')},1200)}
 const initial=new URLSearchParams(location.search).get('q');if(initial){q.value=initial;run(initial)}
+async function refreshWhenVisible(){
+  if(document.visibilityState==='hidden')return;
+  try{
+    const latest=await loadManifest();if(latest.version===version)return;
+    version=latest.version;records=null;fullPromise=null;
+    titles=prepare((await fetch(`data/search-titles.json?v=${version}`).then(r=>r.json())).records);
+    if(q.value.trim())run(q.value);
+  }catch{}
+}
+window.addEventListener('focus',refreshWhenVisible);document.addEventListener('visibilitychange',refreshWhenVisible);
