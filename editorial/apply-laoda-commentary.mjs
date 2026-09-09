@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {normalize} from '../search-engine.mjs';
 import {applyLaodaCommentary, readOverlay} from './laoda-commentary.mjs';
 const root = path.resolve(import.meta.dirname, '../data');
-const overlay = readOverlay();
+const overlay = readOverlay(process.argv[2] ? path.resolve(process.argv[2]) : undefined);
 const changed = new Map();
 let filesChanged = 0;
 for (const dir of ['records','fast-records','candidates']) {

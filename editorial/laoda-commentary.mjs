@@ -10,7 +10,7 @@ export function applyLaodaCommentary(records, overlay) {
     for (const group of groups) seen.add(group.topic);
     if (!Array.isArray(record.fields)) throw new Error('Missing fields: ' + record.id);
     const sections = groups.map(g => g.excerpts.map(e => e.text).join('\n\n')).join('\n\n');
-    const citation = [
+    const citation = overlay.citation || [
       '讲者：' + overlay.attribution + '。来源：' + overlay.source,
       overlay.status,
       ...groups.map(g => g.topic + '：正文第 ' + [...new Set(g.excerpts.map(e => e.paragraph))].join('、') + ' 段。' + (g.note || '')),
