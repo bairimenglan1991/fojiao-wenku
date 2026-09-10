@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {normalize} from '../search-engine.mjs';
 import {applyLaodaCommentary, readOverlay} from './laoda-commentary.mjs';
-const root = path.resolve(import.meta.dirname, '../data');
+const root = process.argv[3] ? path.resolve(process.argv[3]) : path.resolve(import.meta.dirname, '../data');
 const overlay = readOverlay(process.argv[2] ? path.resolve(process.argv[2]) : undefined);
 const changed = new Map();
 let filesChanged = 0;
